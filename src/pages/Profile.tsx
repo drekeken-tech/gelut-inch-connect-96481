@@ -5,7 +5,25 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { BottomNav } from '@/components/BottomNav';
 import { ProfileCard } from '@/components/ProfileCard';
-import { Settings, LogOut } from 'lucide-react';
+import { Settings, LogOut, Heart } from 'lucide-react';
+
+// Dummy posts for current user
+const userPosts = [
+  {
+    id: '1',
+    content: 'My first sparring session was amazing! Can\'t wait for more.',
+    image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600&auto=format&fit=crop&q=80',
+    likes: 15,
+    timestamp: '3 days ago',
+  },
+  {
+    id: '2',
+    content: 'Training montage from this week! 💪 #FitnessGoals',
+    image: 'https://images.unsplash.com/photo-1517438322307-e67111335449?w=600&auto=format&fit=crop&q=80',
+    likes: 28,
+    timestamp: '1 week ago',
+  },
+];
 
 const ProfileContent = () => {
   const { user, signOut } = useAuth();
@@ -71,6 +89,28 @@ const ProfileContent = () => {
               onChallenge={() => {}}
               onMessage={() => {}}
             />
+          </div>
+
+          {/* User Posts Section */}
+          <div className="space-y-4 pt-6">
+            <h2 className="text-xl font-bold">Postingan Saya</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {userPosts.map((post) => (
+                <div key={post.id} className="relative aspect-square rounded-lg overflow-hidden bg-card border border-border group cursor-pointer">
+                  <img 
+                    src={post.image} 
+                    alt="Post"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="text-white text-center">
+                      <Heart className="h-6 w-6 inline-block mb-1" />
+                      <p className="text-sm font-semibold">{post.likes} likes</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Actions */}
